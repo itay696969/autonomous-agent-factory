@@ -16,18 +16,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Initialize Blackboard
-        run: |
-          echo "Initializing Swarm for Ticket: ${{ github.event.client_payload.ticket_id }}"
-          # Additional swarm orchestration logic would run here using the Antigravity container
-          
-      - name: Notify Miro War Room
-        env:
-          MIRO_TOKEN: ${{ secrets.MIRO_TOKEN }}
-        run: |
-          echo "Connecting to Miro to create Proposed_Swarm_Changes frame..."
-          # Miro API script execution
-          
       - name: Install Dependencies
         run: npm install
 
@@ -36,6 +24,7 @@ jobs:
           LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
           LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
           LANGFUSE_HOST: "https://cloud.langfuse.com"
+          GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           echo "Tracing swarm execution via Langfuse..."
           node --require ./swarm/telemetry.js swarm/orchestrator.js
