@@ -28,10 +28,14 @@ jobs:
           echo "Connecting to Miro to create Proposed_Swarm_Changes frame..."
           # Miro API script execution
           
-      - name: Log to Langfuse
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Swarm Orchestrator with Langfuse Telemetry
         env:
           LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
           LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+          LANGFUSE_HOST: "https://cloud.langfuse.com"
         run: |
           echo "Tracing swarm execution via Langfuse..."
-          # Langfuse observability logic
+          node --require ./swarm/telemetry.js swarm/orchestrator.js
